@@ -1,7 +1,11 @@
+// listens for the event of slot search form being submitted
+
 $('#slot-search-form').on('submit', function(e) {
   e.preventDefault();
   slotSearch();
 });
+
+// listens for the event of clear slots button, clears contents of the slots element in html and hides slots holder row
 
 $('#clear-slots').on('click', function(e) {
   $('#slots').html('');
@@ -12,15 +16,35 @@ function slotSearch() {
   clearUI();
   $('#loading-row').show();
 
+  // Next, the code loops through the elements of the form.  
+
   // Grab Slot query parameters from the slot-search-form
   var form = document.getElementById('slot-search-form');
+
+  // Create an empty dictionary called slotParams
   var slotParams = {};
+
+  // The for() loop iterates over the elements of the form element. The length property of the form element returns the number of elements in the form.
   for(var i = 0; i < form.length; i++) {
     // Handle date params later
+
+    // For each element, the code checks if the element's name starts with the string date-. If it does, the code skips the element.
+
+    // The startsWith() method checks if the string starts with the specified substring. In this case, the substring is date-. If the string does start with the substring, the code skips the element.
+
     if (form.elements[i].name.startsWith('date-')) { continue; }
+
+    // Otherwise, the code adds the element's name and value to the slotParams dictionary.
+    
     slotParams[form.elements[i].name] = form.elements[i].value;
   }
   // Appointment start date and appointment end date need to both be set in query parameter 'start'
+
+  // The code first gets the date-start and date-end form elements. Then, it creates a JSON object with two properties:
+       // $ge: The greater than or equal operator.
+      // $lt: The less than operator.
+// The value of the $ge property is the value of the date-start form element. The value of the $lt property is the value of the date-end form element.
+      // The code then sets the start parameter of the slotParams dictionary to the JSON object.
   slotParams['start'] = {$ge: form.elements['date-start'].value, $lt: form.elements['date-end'].value};
 
   FHIR.oauth2.ready(function(smart) {
@@ -41,7 +65,7 @@ function slotSearch() {
         }
         // If no Slots matched the criteria, inform the user
         else {
-          renderSlots('<p>No Slots found for the selected query parameters.</p>');
+          renderSlots('<p>No Slots ;(</p>');
         }
       },
 
