@@ -47,11 +47,27 @@ function slotSearch() {
       // The code then sets the start parameter of the slotParams dictionary to the JSON object.
   slotParams['start'] = {$ge: form.elements['date-start'].value, $lt: form.elements['date-end'].value};
 
+
+  //FHIR.oauth2.ready(): This function initializes the SMART API and returns a smart object that contains the FHIR client and other resources.
   FHIR.oauth2.ready(function(smart) {
     // Query the FHIR server for Slots
+
+    // smart.api.fetchAll(): This function queries the FHIR server for slots.
+    //slotParams: This object contains the query parameters for the fetchAll() function.
+    // then(): This function handles the resolved promise from the fetchAll() function.
     smart.api.fetchAll({type: 'Slot', query: slotParams}).then(
 
       // Display Appointment information if the call succeeded
+
+      //The code you provided is a JavaScript function that takes an array of slots as its argument and renders them as HTML. The function first checks if the array of slots is empty. If it is not empty, the function creates a variable called slotsHTML and initializes it to an empty string. The function then loops through the array of slots and calls a function called slotHTML() for each slot. The slotHTML() function takes the ID, type, start, and end time of a slot as its arguments and returns an HTML string that represents the slot. The slotHTML() function is defined as follows: function slotHTML(id, type, start, end) {
+  // return `<div class="slot">
+ // <h3>Slot ID: ${id}</h3>
+ // <p>Type: ${type}</p>
+ // <p>Start time: ${start}</p>
+ // <p>End time: ${end}</p>
+// </div>`;
+// }
+
       function(slots) {
         // If any Slots matched the criteria, display them
         if (slots.length) {
@@ -79,12 +95,30 @@ function slotSearch() {
   });
 }
 
+// The code you provided is a JavaScript function that returns an HTML string for a single slot. The function takes the ID, type, start, and end time of a slot as its arguments and returns an HTML string that represents the slot.
+
 function slotHTML(id, type, start, end) {
+
+  // The function first logs the slot information to the console. This is useful for debugging purposes.
+
   console.log('Slot: id:[' + id + '] type:[' + type + '] start:[' + start + '] end:[' + end + ']');
+
+  // The function then creates a variable called slotReference and assigns it the value of Slot/ + id. This is the FHIR resource reference for the slot.
+
+// The function then creates two variables called prettyStart and prettyEnd and assigns them the values of the start and end times, respectively, converted to JavaScript Date objects. This is done so that the start and end times can be displayed in a human-readable format.
 
   var slotReference = 'Slot/' + id,
       prettyStart = new Date(start),
       prettyEnd = new Date(end);
+
+//      The function then returns an HTML string that contains a div element
+
+// A card with a class of card
+//A card body with a class of card-body
+//A heading with the slot type
+//A paragraph with the start time
+//A paragraph with the end time
+//A link with a class of card-link that calls the askForPatient() function when clicked
 
   return "<div class='card'>" +
            "<div class='card-body'>" +
@@ -97,11 +131,26 @@ function slotHTML(id, type, start, end) {
          '</div>';
 }
 
+// The code you provided defines two JavaScript functions: renderSlots() and clearUI().
+
+// The renderSlots() function takes an HTML string as its argument and renders it in the browser. The function first calls the clearUI() function to clear the existing UI. Then, the function sets the inner HTML of the #slots element to the value of the slotsHTML argument. Finally, the function shows the #slots-holder-row element.
+
 function renderSlots(slotsHTML) {
   clearUI();
   $('#slots').html(slotsHTML);
   $('#slots-holder-row').show();
 }
+
+// The clearUI() function clears the existing UI by setting the inner HTML of all the elements in the UI to an empty string and hiding all the elements.
+
+//renderSlots(): This function renders the HTML for the slots in the browser.
+//clearUI(): This function clears the existing UI.
+//#slots: This is the ID of the element that will be used to display the slots.
+//#slots-holder-row: This is the ID of the row that contains the #slots element.
+
+// The clearUI() function uses the querySelector() method to get the elements in the UI. The querySelector() method takes a CSS selector as its argument and returns the first element that matches the selector.
+// The clearUI() function uses the innerHTML property to set the inner HTML of an element. The innerHTML property is a read-only property that returns the inner HTML of an element.
+// The show() method is used to show an element. The show() method takes an element as its argument and makes the element visible.
 
 function clearUI() {
   $('#errors').html('');
