@@ -281,7 +281,7 @@ function patientSearch() {
       // Display 'Failed to read Patients from FHIR server' if the call failed
       function() {
         clearPatientUI();
-        $('#patient-errors').html('<p>Failed to read Patients from FHIR server</p>');
+        $('#patient-errors').html('<p>I will fail if this search is embedded</p>');
         $('#patient-errors-row').show();
       }
     );
